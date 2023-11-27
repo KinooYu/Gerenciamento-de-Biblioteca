@@ -1,2 +1,3 @@
-# Gerenciamento-de-Biblioteca
-Um sistema para gerenciamento de empréstimos de livros para uma biblioteca.
+# Gerenciamento de biblioteca :books: 
+
+Um sistema para gerenciamento de livros para bibliotecas feito na linguagem C e com a GUI feita em python.
