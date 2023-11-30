@@ -1,0 +1,3 @@
+/home/kinoyu/Documents/Gerenciamento-de-Biblioteca/biblioteca_C/biblioteca_project/cmake-build-debug/CMakeFiles/biblioteca_project.dir
+/home/kinoyu/Documents/Gerenciamento-de-Biblioteca/biblioteca_C/biblioteca_project/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/kinoyu/Documents/Gerenciamento-de-Biblioteca/biblioteca_C/biblioteca_project/cmake-build-debug/CMakeFiles/rebuild_cache.dir
