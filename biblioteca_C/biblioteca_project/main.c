@@ -52,7 +52,7 @@ void menu() {
     system("clear"); // Esse para quem estiver no linux
     printf("\n1 - Cadastrar Livro \n2 - Emprestar Livro \n3 - Devolver Livro ");
     printf("\n4 - Listar Livros \n5 - Listar Livros Emprestados \n6 - Excluir "
-           "Livro \n0 - Sair\n");
+           "Livro \n7 - Cadastrar usuário \n8 - Listar usuários \n0 - Sair\n");
     printf("Selecione uma opção: ");
 
     fgets(input, sizeof(input), stdin);
@@ -298,9 +298,12 @@ void listarUsuario() {
   system("clear");
   printf("\n LISTA DE USUÁRIOS\n");
   for (int i = 0; i < MAX_USUARIOS; i++) {
-    printf("Nome: %s\n", usuarios[i].nome);
-    printf("Código do usuário: %d\n", usuarios[i].codigo_de_usuario);
-    printf("--------------------\n");
+    if (usuarios[i].usuario_ativo == 1) {
+      printf("Nome: %s\n", usuarios[i].nome);
+      printf("CPF: %s\n", usuarios[i].cpf);
+      printf("Código do usuário: %d\n", usuarios[i].codigo_de_usuario);
+      printf("--------------------\n");
+    }
   }
   printf("Pressione enter para voltar");
   getchar();
