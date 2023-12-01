@@ -81,6 +81,12 @@ void menu() {
     case 6:
       deletarLivros();
       break;
+    case 7:
+      cadastrarUsuario();
+      break;
+    case 8:
+      listarUsuario();
+      break;
     }
 
   } while (op != 0);
