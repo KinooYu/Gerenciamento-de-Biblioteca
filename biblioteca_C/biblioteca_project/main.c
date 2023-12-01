@@ -3,6 +3,7 @@
 #include <string.h>
 
 #define MAX_LIVROS 50
+#define MAX_USUARIOS 50
 #define TAMANHO_TITULO 100
 #define TAMANHO_AUTOR 50
 #define TAMANHO_NOME 50
@@ -11,6 +12,8 @@
 typedef struct {
   char nome[TAMANHO_NOME];
   char cpf[TAMANHO_CPF];
+  int codigo_de_usuario;
+  int usuario_ativo;
 } Usuario;
 
 typedef struct {
@@ -22,6 +25,7 @@ typedef struct {
 } Livro;
 
 Livro livros[MAX_LIVROS];
+Usuario usuarios[MAX_USUARIOS];
 
 void menu();
 void cadastrarLivros();
@@ -32,6 +36,8 @@ void emprestarLivros();
 void devolverLivros();
 void listarLivrosEmprestados();
 void lerString(char *string, int tamanho);
+void cadastrarUsuario();
+void listarUsuario();
 
 int main() {
   menu();
@@ -240,4 +246,56 @@ void listarLivrosEmprestados() {
   printf("Pressione enter para voltar");
   getchar(); // Aguarda um enter antes de retornar ao menu
   fflush(stdin);
+}
+
+void cadastrarUsuario() {
+  char nome[TAMANHO_NOME];
+  char cpf[TAMANHO_CPF];
+  int total_para_cadastrar = 0;
+
+  printf("--------------------\n");
+  printf("Quantos usuários você quer cadastrar? ");
+  scanf("%d", &total_para_cadastrar);
+  getchar();
+  fflush(stdin);
+  printf("\n CADASTRO DO USUÁRIO\n");
+
+  for (int i = 0; i < total_para_cadastrar && i < MAX_USUARIOS; i++) {
+    printf("--------------------\n");
+    printf("Qual o nome do usuário: ");
+    lerString(nome, TAMANHO_NOME);
+    getchar();
+    fflush(stdin);
+
+    printf("Digite o CPF do usuário com os caracteres especiais: ");
+    lerString(cpf, TAMANHO_CPF);
+    getchar();
+    fflush(stdin);
+    for (int j = 0; j < MAX_USUARIOS; j++) {
+      if (usuarios[j].usuario_ativo == 0) {
+        Usuario *usuario_atual = &usuarios[j];
+        strcpy(usuario_atual->nome, nome);
+        strcpy(usuario_atual->cpf, cpf);
+        usuario_atual->usuario_ativo = 1;
+        usuario_atual->codigo_de_usuario = j + 1;
+        break;
+      }
+    }
+  }
+  printf("Cadastro dos usuários feito com sucesso!\nPressione enter para "
+         "voltar ao menu.");
+  getchar();
+  fflush(stdin);
+}
+
+void listarUsuario() {
+  system("clear");
+  printf("\n LISTA DE USUÁRIOS\n");
+  for (int i = 0; i < MAX_USUARIOS; i++) {
+    printf("Nome: %s\n", usuarios[i].nome);
+    printf("Código do usuário: %d\n", usuarios[i].codigo_de_usuario);
+    printf("--------------------\n");
+  }
+  printf("Pressione enter para voltar");
+  getchar();
 }
