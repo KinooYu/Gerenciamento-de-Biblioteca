@@ -299,9 +299,9 @@ void listarUsuario() {
   printf("\n LISTA DE USUÁRIOS\n");
   for (int i = 0; i < MAX_USUARIOS; i++) {
     if (usuarios[i].usuario_ativo == 1) {
-      printf("Nome: %s\n", usuarios[i].nome);
-      printf("CPF: %s\n", usuarios[i].cpf);
       printf("Código do usuário: %d\n", usuarios[i].codigo_de_usuario);
+      printf("CPF: %s\n", usuarios[i].cpf);
+      printf("Nome: %s\n", usuarios[i].nome);
       printf("--------------------\n");
     }
   }
