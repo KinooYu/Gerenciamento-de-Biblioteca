@@ -5,13 +5,20 @@
 #define MAX_LIVROS 50
 #define TAMANHO_TITULO 100
 #define TAMANHO_AUTOR 50
+#define TAMANHO_NOME 50
+#define TAMANHO_CPF 14
 
 typedef struct {
-    char titulo[TAMANHO_TITULO];
-    char autor[TAMANHO_AUTOR];
-    int emprestado;
-    int ativo;
-    int codigo;
+  char nome[TAMANHO_NOME];
+  char cpf[TAMANHO_CPF];
+} Usuario;
+
+typedef struct {
+  char titulo[TAMANHO_TITULO];
+  char autor[TAMANHO_AUTOR];
+  int emprestado;
+  int ativo;
+  int codigo;
 } Livro;
 
 Livro livros[MAX_LIVROS];
@@ -27,206 +34,210 @@ void listarLivrosEmprestados();
 void lerString(char *string, int tamanho);
 
 int main() {
-    menu();
-    return 0;
+  menu();
+  return 0;
 }
 
 void menu() {
-    int op;
-    char input[256];
+  int op;
+  char input[256];
 
-    do {
-        system("clear"); //Esse para quem estiver no linux
-        printf("\n1 - Cadastrar Livro \n2 - Emprestar Livro \n3 - Devolver Livro ");
-        printf("\n4 - Listar Livros \n5 - Listar Livros Emprestados \n6 - Excluir Livro \n0 - Sair\n");
-        printf("Selecione uma opção: ");
+  do {
+    system("clear"); // Esse para quem estiver no linux
+    printf("\n1 - Cadastrar Livro \n2 - Emprestar Livro \n3 - Devolver Livro ");
+    printf("\n4 - Listar Livros \n5 - Listar Livros Emprestados \n6 - Excluir "
+           "Livro \n0 - Sair\n");
+    printf("Selecione uma opção: ");
 
-        fgets(input, sizeof(input), stdin);
-        if (sscanf(input, "%d", &op) != 1) {
-            // Tratamento de erro se a leitura falhar
-            printf("Opção inválida. Tente novamente.\n");
-            continue;
-        }
+    fgets(input, sizeof(input), stdin);
+    if (sscanf(input, "%d", &op) != 1) {
+      // Tratamento de erro se a leitura falhar
+      printf("Opção inválida. Tente novamente.\n");
+      continue;
+    }
 
-        switch (op) {
-            case 1:
-                cadastrarLivros();
-                break;
-            case 2:
-                emprestarLivros();
-                break;
-            case 3:
-                devolverLivros();
-                break;
-            case 4:
-                listarLivros();
-                break;
-            case 5:
-                listarLivrosEmprestados();
-                break;
-            case 6:
-                deletarLivros();
-                break;
-        }
+    switch (op) {
+    case 1:
+      cadastrarLivros();
+      break;
+    case 2:
+      emprestarLivros();
+      break;
+    case 3:
+      devolverLivros();
+      break;
+    case 4:
+      listarLivros();
+      break;
+    case 5:
+      listarLivrosEmprestados();
+      break;
+    case 6:
+      deletarLivros();
+      break;
+    }
 
-    } while (op != 0);
+  } while (op != 0);
 }
 
-void lerString(char *string, int tamanho) {
-    scanf("%49[^\n]s", string);
-}
+void lerString(char *string, int tamanho) { scanf("%49[^\n]s", string); }
 
 void cadastrarLivros() {
-    char titulo[TAMANHO_TITULO];
-    char autor[TAMANHO_AUTOR];
-    int totalLivros;
+  char titulo[TAMANHO_TITULO];
+  char autor[TAMANHO_AUTOR];
+  int totalLivros;
 
+  printf("--------------------\n");
+  printf("Quantos livros você quer cadastrar?  ");
+  scanf("%d", &totalLivros);
+  getchar();
+  fflush(stdin);
+
+  for (int i = 0; i < totalLivros && i < MAX_LIVROS; i++) {
     printf("--------------------\n");
-    printf("Quantos livros você quer cadastrar?  ");
-    scanf("%d", &totalLivros);
+    printf("Digite o título do livro: ");
+    lerString(titulo, TAMANHO_TITULO);
     getchar();
     fflush(stdin);
 
-    for (int i = 0; i < totalLivros && i < MAX_LIVROS; i++) {
-        printf("--------------------\n");
-        printf("Digite o título do livro: ");
-        lerString(titulo, TAMANHO_TITULO);
-        getchar();
-        fflush(stdin);
-
-        printf("Digite o autor do livro: ");
-        lerString(autor, TAMANHO_AUTOR);
-        getchar();
-        fflush(stdin);
-
-        for (int j = 0; j < MAX_LIVROS; ++j) {
-            if (livros[j].ativo == 0) {
-                Livro *livroAtual = &livros[j];
-                strcpy(livroAtual->titulo, titulo);
-                strcpy(livroAtual->autor, autor);
-                livroAtual->ativo = 1;
-                livroAtual->emprestado = 0;
-                livroAtual->codigo = j + 1;
-                break;
-            }
-        }
-    }
-
-    printf("Livros cadastrados com sucesso. Pressione enter para voltar ao menu.");
-    getchar();  // Aguarda um enter antes de retornar ao menu
+    printf("Digite o autor do livro: ");
+    lerString(autor, TAMANHO_AUTOR);
+    getchar();
     fflush(stdin);
+
+    for (int j = 0; j < MAX_LIVROS; ++j) {
+      if (livros[j].ativo == 0) {
+        Livro *livroAtual = &livros[j];
+        strcpy(livroAtual->titulo, titulo);
+        strcpy(livroAtual->autor, autor);
+        livroAtual->ativo = 1;
+        livroAtual->emprestado = 0;
+        livroAtual->codigo = j + 1;
+        break;
+      }
+    }
+  }
+
+  printf(
+      "Livros cadastrados com sucesso. Pressione enter para voltar ao menu.");
+  getchar(); // Aguarda um enter antes de retornar ao menu
+  fflush(stdin);
 }
 
 void listarLivros() {
-    system("clear"); //Esse para quem estiver no linux
-    printf("\n LISTA DE LIVROS\n");
-    for (int i = 0; i < MAX_LIVROS; ++i) {
-        if (livros[i].ativo == 1) {
-            // Verificando se o livro está ativo
-            printf("Código: %d\n", livros[i].codigo);
-            printf("Titulo: %s\n", livros[i].titulo);
-            printf("Autor: %s\n", livros[i].autor);
-            if(livros[i].emprestado == 1){ printf("Status: Emprestado");}
-            else{printf("Status: Disponivel");}
-            printf("\n-----------------------\n");
-        }
+  system("clear"); // Esse para quem estiver no linux
+  printf("\n LISTA DE LIVROS\n");
+  for (int i = 0; i < MAX_LIVROS; ++i) {
+    if (livros[i].ativo == 1) {
+      // Verificando se o livro está ativo
+      printf("Código: %d\n", livros[i].codigo);
+      printf("Titulo: %s\n", livros[i].titulo);
+      printf("Autor: %s\n", livros[i].autor);
+      if (livros[i].emprestado == 1) {
+        printf("Status: Emprestado");
+      } else {
+        printf("Status: Disponivel");
+      }
+      printf("\n-----------------------\n");
     }
-    printf("Pressione enter para voltar");
-    getchar();  // Aguarda um enter antes de retornar ao menu
+  }
+  printf("Pressione enter para voltar");
+  getchar(); // Aguarda um enter antes de retornar ao menu
 }
 
 void listarLivrosSymple() {
-    printf("\n LISTA DE LIVROS\n");
-    for (int i = 0; i < MAX_LIVROS; ++i) {
-        if (livros[i].ativo == 1) {
-            printf("Código: %d\n", livros[i].codigo);
-            printf("Titulo: %s\n", livros[i].titulo);
-            printf("Autor: %s\n", livros[i].autor);
-            if(livros[i].emprestado == 1){ printf("Status: Emprestado");}
-            else{printf("Status: Disponivel");}
-            printf("\n-----------------------\n");
-        }
+  printf("\n LISTA DE LIVROS\n");
+  for (int i = 0; i < MAX_LIVROS; ++i) {
+    if (livros[i].ativo == 1) {
+      printf("Código: %d\n", livros[i].codigo);
+      printf("Titulo: %s\n", livros[i].titulo);
+      printf("Autor: %s\n", livros[i].autor);
+      if (livros[i].emprestado == 1) {
+        printf("Status: Emprestado");
+      } else {
+        printf("Status: Disponivel");
+      }
+      printf("\n-----------------------\n");
     }
+  }
 }
 
 void deletarLivros() {
-    int codigo;
-    listarLivrosSymple();
-    printf("\nQual o código do livro a ser removido: \n");
-    scanf("%d", &codigo);
+  int codigo;
+  listarLivrosSymple();
+  printf("\nQual o código do livro a ser removido: \n");
+  scanf("%d", &codigo);
 
-    if (codigo >= 0 || livros[codigo].emprestado == 1) {
-        printf("Codigo inexistente ou Livro emprestado");
-    }
-    else {
-        printf("Livro de código %d excluído com sucesso\n", codigo);
-        --codigo;
-        livros[codigo].ativo = 0;
-        printf("Pressione enter para voltar");
-    }
+  if (codigo >= 0 || livros[codigo].emprestado == 1) {
+    printf("Codigo inexistente ou Livro emprestado");
+  } else {
+    printf("Livro de código %d excluído com sucesso\n", codigo);
+    --codigo;
+    livros[codigo].ativo = 0;
+    printf("Pressione enter para voltar");
+  }
 
-    getchar();  // Aguarda um enter antes de retornar ao menu
+  getchar(); // Aguarda um enter antes de retornar ao menu
 }
 
 void emprestarLivros() {
-    int codigoDesejado;
-    listarLivrosSymple();
-    printf("Digite o codigo do livro que deseja emprestar: ");
-    scanf("%d", &codigoDesejado);
-    getchar();  // Aguarda um enter antes de retornar ao menu
-    fflush(stdin);
+  int codigoDesejado;
+  listarLivrosSymple();
+  printf("Digite o codigo do livro que deseja emprestar: ");
+  scanf("%d", &codigoDesejado);
+  getchar(); // Aguarda um enter antes de retornar ao menu
+  fflush(stdin);
 
-    // Procura pelo livro com o código desejado
-    for (int i = 0; i < MAX_LIVROS; ++i) {
-        if (livros[i].codigo == codigoDesejado) {
-            // Verifica se o livro não está emprestado
-            if (livros[i].emprestado == 0) {
-                printf("Livro emprestado com sucesso!\n");
-                livros[i].emprestado = 1;  // Marca o livro como emprestado
-            } else {
-                printf("Livro ja emprestado!\n");
-            }
+  // Procura pelo livro com o código desejado
+  for (int i = 0; i < MAX_LIVROS; ++i) {
+    if (livros[i].codigo == codigoDesejado) {
+      // Verifica se o livro não está emprestado
+      if (livros[i].emprestado == 0) {
+        printf("Livro emprestado com sucesso!\n");
+        livros[i].emprestado = 1; // Marca o livro como emprestado
+      } else {
+        printf("Livro ja emprestado!\n");
+      }
 
-            break;  // Sai do loop, pois o livro foi encontrado
-        }
+      break; // Sai do loop, pois o livro foi encontrado
     }
-    printf("Pressione enter para voltar");
-    getchar();  // Aguarda um enter antes de retornar ao menu
-    fflush(stdin);
+  }
+  printf("Pressione enter para voltar");
+  getchar(); // Aguarda um enter antes de retornar ao menu
+  fflush(stdin);
 }
 
 void devolverLivros() {
-    int codigo;
-    printf("\nQual o código do livro a ser devolvido: ");
-    scanf("%d", &codigo);
+  int codigo;
+  printf("\nQual o código do livro a ser devolvido: ");
+  scanf("%d", &codigo);
 
-    --codigo;
+  --codigo;
 
-    if (codigo >= 0 && livros[codigo].emprestado == 1) {
-        printf("Livro de código %d devolvido com sucesso\n", livros[codigo].codigo);
-        livros[codigo].emprestado = 0;
-    } else {
-        printf("Este livro não foi emprestado ainda ou código inválido.\n");
-    }
+  if (codigo >= 0 && livros[codigo].emprestado == 1) {
+    printf("Livro de código %d devolvido com sucesso\n", livros[codigo].codigo);
+    livros[codigo].emprestado = 0;
+  } else {
+    printf("Este livro não foi emprestado ainda ou código inválido.\n");
+  }
 
-    printf("Pressione enter para voltar");
-    getchar();  // Aguarda um enter antes de retornar ao menu
+  printf("Pressione enter para voltar");
+  getchar(); // Aguarda um enter antes de retornar ao menu
 }
 
-
 void listarLivrosEmprestados() {
-    system("clear"); //Esse para quem estiver no linux
-    printf("\n LISTA DE LIVROS EMPRESTADOS\n");
-    for (int i = 0; i < MAX_LIVROS; ++i) {
-        if (livros[i].emprestado == 1) {
-            // Verificando se o livro está ativo
-            printf("Código: %d\n", livros[i].codigo);
-            printf("Titulo: %s\n", livros[i].titulo);
-            printf("Autor: %s\n", livros[i].autor);
-            printf("\n-----------------------\n");
-        }
+  system("clear"); // Esse para quem estiver no linux
+  printf("\n LISTA DE LIVROS EMPRESTADOS\n");
+  for (int i = 0; i < MAX_LIVROS; ++i) {
+    if (livros[i].emprestado == 1) {
+      // Verificando se o livro está ativo
+      printf("Código: %d\n", livros[i].codigo);
+      printf("Titulo: %s\n", livros[i].titulo);
+      printf("Autor: %s\n", livros[i].autor);
+      printf("\n-----------------------\n");
     }
-    printf("Pressione enter para voltar");
-    getchar();  // Aguarda um enter antes de retornar ao menu
-    fflush(stdin);
+  }
+  printf("Pressione enter para voltar");
+  getchar(); // Aguarda um enter antes de retornar ao menu
+  fflush(stdin);
 }
