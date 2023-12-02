@@ -100,7 +100,7 @@ void lerString(char *string, int tamanho) {
   // Remover caractere da nova linha, se existir
   if (lenght > 0 && string[lenght - 1] == '\n') {
     string[lenght - 1] = '\0';
-  } else {
+  }else {
     // Limpar caso não tenha sido consumido
     int c;
     while ((c = getchar() != '\n' && c != EOF))
@@ -208,10 +208,13 @@ void deletarLivros() {
 
 void emprestarLivros() {
   int codigoDesejado;
+  int codigo_de_emprestimo;
+
+  printf("Digite o código de usuário que quer realizar emprestimo: ");
+  scanf("%d", &codigo_de_emprestimo);
   for (int i = 0; i < MAX_USUARIOS; i++) {
-    int codigo_atual = usuarios[i].codigo_de_usuario;
     if (usuarios[i].usuario_ativo == 1) {
-      if (usuarios[i].codigo_de_usuario == codigo_atual) {
+      if (usuarios[i].codigo_de_usuario == codigo_de_emprestimo) {
         usuarios[i].verificar_emprestimo = 1;
       }
     }
@@ -321,9 +324,9 @@ void listarUsuario() {
   printf("\n LISTA DE USUÁRIOS\n");
   for (int i = 0; i < MAX_USUARIOS; i++) {
     if (usuarios[i].usuario_ativo == 1) {
-      printf("Código do usuário: %d\n", usuarios[i].codigo_de_usuario);
-      printf("CPF: %s\n", usuarios[i].cpf);
       printf("Nome: %s\n", usuarios[i].nome);
+      printf("CPF: %s\n", usuarios[i].cpf);
+      printf("Código de usuário: %d\n", usuarios[i].codigo_de_usuario);
       if (usuarios[i].verificar_emprestimo == 1) {
         printf("Já está com um livro emprestado\n");
       } else {
