@@ -14,6 +14,7 @@ typedef struct {
   char cpf[TAMANHO_CPF];
   int codigo_de_usuario;
   int usuario_ativo;
+  int verificar_emprestimo;
 } Usuario;
 
 typedef struct {
@@ -92,7 +93,20 @@ void menu() {
   } while (op != 0);
 }
 
-void lerString(char *string, int tamanho) { scanf("%49[^\n]s", string); }
+void lerString(char *string, int tamanho) {
+  fgets(string, tamanho, stdin);
+  size_t lenght = strlen(string);
+
+  // Remover caractere da nova linha, se existir
+  if (lenght > 0 && string[lenght - 1] == '\n') {
+    string[lenght - 1] = '\0';
+  } else {
+    // Limpar caso não tenha sido consumido
+    int c;
+    while ((c = getchar() != '\n' && c != EOF))
+      ;
+  }
+}
 
 void cadastrarLivros() {
   char titulo[TAMANHO_TITULO];
@@ -194,6 +208,14 @@ void deletarLivros() {
 
 void emprestarLivros() {
   int codigoDesejado;
+  for (int i = 0; i < MAX_USUARIOS; i++) {
+    int codigo_atual = usuarios[i].codigo_de_usuario;
+    if (usuarios[i].usuario_ativo == 1) {
+      if (usuarios[i].codigo_de_usuario == codigo_atual) {
+        usuarios[i].verificar_emprestimo = 1;
+      }
+    }
+  }
   listarLivrosSymple();
   printf("Digite o codigo do livro que deseja emprestar: ");
   scanf("%d", &codigoDesejado);
@@ -302,6 +324,11 @@ void listarUsuario() {
       printf("Código do usuário: %d\n", usuarios[i].codigo_de_usuario);
       printf("CPF: %s\n", usuarios[i].cpf);
       printf("Nome: %s\n", usuarios[i].nome);
+      if (usuarios[i].verificar_emprestimo == 1) {
+        printf("Já está com um livro emprestado\n");
+      } else {
+        printf("Não tem nenhum livro emprestado\n");
+      }
       printf("--------------------\n");
     }
   }
