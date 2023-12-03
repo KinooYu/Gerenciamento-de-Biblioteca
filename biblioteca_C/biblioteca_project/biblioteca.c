@@ -157,39 +157,33 @@ void emprestarLivros() {
   int codigoDesejado;
   int codigo_de_emprestimo;
 
+  printf("Digite o código de usuário que quer realizar emprestimo: ");
+  scanf("%d", &codigo_de_emprestimo);
   for (int i = 0; i < MAX_USUARIOS; i++) {
     if (usuarios[i].usuario_ativo == 1) {
-      printf("Digite o código de usuário que quer realizar emprestimo: ");
-      scanf("%d", &codigo_de_emprestimo);
-      for (int i = 0; i < MAX_USUARIOS; i++) {
-        if (usuarios[i].usuario_ativo == 1) {
-          if (usuarios[i].codigo_de_usuario == codigo_de_emprestimo) {
-            usuarios[i].verificar_emprestimo = 1;
-          }
-        }
+      if (usuarios[i].codigo_de_usuario == codigo_de_emprestimo) {
+        usuarios[i].verificar_emprestimo = 1;
       }
-      listarLivrosSymple();
-      printf("Digite o codigo do livro que deseja emprestar: ");
-      scanf("%d", &codigoDesejado);
-      getchar(); // Aguarda um enter antes de retornar ao menu
-      fflush(stdin);
+    }
+  }
+  listarLivrosSymple();
+  printf("Digite o codigo do livro que deseja emprestar: ");
+  scanf("%d", &codigoDesejado);
+  getchar(); // Aguarda um enter antes de retornar ao menu
+  fflush(stdin);
 
-      // Procura pelo livro com o código desejado
-      for (int i = 0; i < MAX_LIVROS; ++i) {
-        if (livros[i].codigo == codigoDesejado) {
-          // Verifica se o livro não está emprestado
-          if (livros[i].emprestado == 0) {
-            printf("Livro emprestado com sucesso!\n");
-            livros[i].emprestado = 1; // Marca o livro como emprestado
-          } else {
-            printf("Livro ja emprestado!\n");
-          }
-
-          break; // Sai do loop, pois o livro foi encontrado
-        }
+  // Procura pelo livro com o código desejado
+  for (int i = 0; i < MAX_LIVROS; ++i) {
+    if (livros[i].codigo == codigoDesejado) {
+      // Verifica se o livro não está emprestado
+      if (livros[i].emprestado == 0) {
+        printf("Livro emprestado com sucesso!\n");
+        livros[i].emprestado = 1; // Marca o livro como emprestado
+      } else {
+        printf("Livro ja emprestado!\n");
       }
-    } else {
-      printf("Não pode emprestar para usuário inexistente!\n");
+
+      break; // Sai do loop, pois o livro foi encontrado
     }
   }
   printf("Pressione enter para voltar");
@@ -209,7 +203,7 @@ void devolverLivros() {
 
   for (int i = 0; i < MAX_USUARIOS; i++) {
     if (codigo_de_emprestimo == usuarios[i].codigo_de_usuario) {
-      usuarios[i].codigo_de_usuario = 0;
+      usuarios[i].verificar_emprestimo = 0;
     }
   }
 
@@ -247,6 +241,7 @@ void cadastrarUsuario() {
   char nome[TAMANHO_NOME];
   char cpf[TAMANHO_CPF];
   int total_para_cadastrar = 0;
+  int c;
 
   printf("--------------------\n");
   printf("Quantos usuários você quer cadastrar? ");
@@ -259,13 +254,14 @@ void cadastrarUsuario() {
     printf("--------------------\n");
     printf("Qual o nome do usuário: ");
     scanf("%s", nome);
-    getchar();
-    fflush(stdin);
+    while ((c = getchar() != '\n' && c != EOF))
+      ;
 
     printf("Digite o CPF do usuário com os caracteres especiais: ");
     scanf("%s", cpf);
-    getchar();
-    fflush(stdin);
+    while ((c = getchar() != '\n' && c != EOF))
+      ;
+
     for (int j = 0; j < MAX_USUARIOS; j++) {
       if (usuarios[j].usuario_ativo == 0) {
         Usuario *usuario_atual = &usuarios[j];
