@@ -9,7 +9,7 @@
 					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
-						"string" : "3.26"
+						"string" : "3.17"
 					},
 					"projectIndex" : 0,
 					"source" : ".",
@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "biblioteca_project::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-biblioteca_project-Debug-bbec5fac9eeaec843661.json",
+					"jsonFile" : "target-biblioteca_project-Debug-7f0e5070b2646de1fbb2.json",
 					"name" : "biblioteca_project",
 					"projectIndex" : 0
 				}
