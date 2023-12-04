@@ -69,12 +69,12 @@ void cadastrarLivros() {
   for (int i = 0; i < totalLivros && i < MAX_LIVROS; i++) {
     printf("--------------------\n");
     printf("Digite o título do livro: ");
-    scanf("%s", titulo);
+    scanf("%[^\n]", titulo);
     while ((c = getchar()) != '\n' && c != EOF)
       ;
 
     printf("Digite o autor do livro: ");
-    scanf("%s", autor);
+    scanf("%[\n]", autor);
     while ((c = getchar()) != '\n' && c != EOF)
       ;
 
@@ -166,6 +166,7 @@ void emprestarLivros() {
       }
     }
   }
+
   listarLivrosSymple();
   printf("Digite o codigo do livro que deseja emprestar: ");
   scanf("%d", &codigoDesejado);
@@ -253,12 +254,12 @@ void cadastrarUsuario() {
   for (int i = 0; i < total_para_cadastrar && i < MAX_USUARIOS; i++) {
     printf("--------------------\n");
     printf("Qual o nome do usuário: ");
-    scanf("%s", nome);
+    scanf("%[\n]", nome);
     while ((c = getchar() != '\n' && c != EOF))
       ;
 
     printf("Digite o CPF do usuário com os caracteres especiais: ");
-    scanf("%s", cpf);
+    scanf("%[\n]", cpf);
     while ((c = getchar() != '\n' && c != EOF))
       ;
 
