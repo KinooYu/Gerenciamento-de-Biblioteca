@@ -74,7 +74,7 @@ void cadastrarLivros() {
       ;
 
     printf("Digite o autor do livro: ");
-    scanf("%[\n]", autor);
+    scanf("%[^\n]", autor);
     while ((c = getchar()) != '\n' && c != EOF)
       ;
 
@@ -254,12 +254,12 @@ void cadastrarUsuario() {
   for (int i = 0; i < total_para_cadastrar && i < MAX_USUARIOS; i++) {
     printf("--------------------\n");
     printf("Qual o nome do usuário: ");
-    scanf("%[\n]", nome);
+    scanf("%[^\n]", nome);
     while ((c = getchar() != '\n' && c != EOF))
       ;
 
-    printf("Digite o CPF do usuário com os caracteres especiais: ");
-    scanf("%[\n]", cpf);
+    printf("Digite o CPF do usuário (Apenas numero): ");
+    scanf("%[^\n]", cpf);
     while ((c = getchar() != '\n' && c != EOF))
       ;
 
